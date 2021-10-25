@@ -3,4 +3,5 @@
     <string name="business"><u>Business</u></string>
     <string name="business_signup_text_und"><u>Sign Up</u></string>
     <string name="business_signin_text_und"><u>Sign In</u>></string>
+    <string name="otp_verification_text">OTP has been send to your Mobile phone. Please enter it below.</string>
 </resources>

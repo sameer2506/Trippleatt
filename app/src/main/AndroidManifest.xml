@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Trippleatt">
         <activity
+            android:name=".OtpVerification"
+            android:exported="true" />
+        <activity
             android:name=".BusinessSignUp"
             android:exported="true" />
         <activity
