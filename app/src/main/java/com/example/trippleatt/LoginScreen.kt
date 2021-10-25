@@ -17,6 +17,7 @@ import android.widget.Toast
 
 import android.text.TextUtils
 import android.view.View
+import android.widget.TextView
 import com.google.android.gms.tasks.TaskExecutors
 
 import com.google.firebase.auth.PhoneAuthProvider
@@ -28,6 +29,7 @@ class LoginScreen : AppCompatActivity() {
 
     private lateinit var btnGenerateOtp: Button
     private lateinit var etPhoneNumber: EditText
+    private lateinit var goToBusinessAccount: TextView
 
     private var phoneNumber: String = ""
     private var otp: Int = 0
@@ -44,8 +46,6 @@ class LoginScreen : AppCompatActivity() {
 
         findViews()
 
-        //StartFirebaseLogin()
-
         Log.d(TAG, "Login Screen activity created")
 
         btnGenerateOtp.setOnClickListener {
@@ -56,6 +56,10 @@ class LoginScreen : AppCompatActivity() {
 
             startPhoneNumberVerification(phoneNumber)
 
+        }
+
+        goToBusinessAccount.setOnClickListener {
+            startActivity(Intent(this, BusinessLoginScreen::class.java))
         }
 
         mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -126,6 +130,8 @@ class LoginScreen : AppCompatActivity() {
         btnGenerateOtp = findViewById(R.id.btnSendOtp)
 
         etPhoneNumber = findViewById(R.id.etMobileNumber)
+
+        goToBusinessAccount = findViewById(R.id.goToBusinessAccount)
 
         auth = Firebase.auth
     }
