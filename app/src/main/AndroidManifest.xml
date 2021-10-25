@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Trippleatt">
         <activity
+            android:name=".WelcomeScreen"
+            android:exported="true" />
+        <activity
             android:name=".BusinessSignUp4"
             android:exported="true" />
         <activity
