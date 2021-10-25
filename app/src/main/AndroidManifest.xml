@@ -10,10 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Trippleatt">
         <activity
-            android:name=".LoginScreen"
+            android:name=".BusinessSignUp"
             android:exported="true" />
         <activity
-            android:name=".BusinessLoginScreen"/>
+            android:name=".LoginScreen"
+            android:exported="true" />
+        <activity android:name=".BusinessLoginScreen" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
