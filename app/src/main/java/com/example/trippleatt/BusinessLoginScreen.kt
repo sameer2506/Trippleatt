@@ -3,9 +3,9 @@ package com.example.trippleatt
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class LoginActivity : AppCompatActivity() {
+class BusinessLoginScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_business_login_screen)
     }
 }
