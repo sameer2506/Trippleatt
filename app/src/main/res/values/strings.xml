@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Trippleatt</string>
+    <string name="business"><u>Business</u></string>
 </resources>
