@@ -1,31 +1,30 @@
-package com.example.trippleatt.ui.bSU5
+package com.example.trippleatt.ui.bSU6
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.trippleatt.R
+import com.example.trippleatt.databinding.ActivityBusinessSignUp6Binding
 import com.example.trippleatt.databinding.ActivityBussinessSignUp5Binding
+import com.google.android.gms.common.api.Status
+import com.google.android.gms.location.places.Place
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
+import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.location.places.Place
 
-import com.google.android.gms.location.places.ui.PlaceSelectionListener
-
-import com.google.android.gms.common.api.Status
-
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
-
-class BusinessSignUp5 : AppCompatActivity(), OnMapReadyCallback {
+class BusinessSignUp6 : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-    private lateinit var binding: ActivityBussinessSignUp5Binding
+    private lateinit var binding: ActivityBusinessSignUp6Binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityBussinessSignUp5Binding.inflate(layoutInflater)
+        binding = ActivityBusinessSignUp6Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val mapFragment = supportFragmentManager
@@ -45,7 +44,6 @@ class BusinessSignUp5 : AppCompatActivity(), OnMapReadyCallback {
 
             override fun onError(status: Status?) {}
         })
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

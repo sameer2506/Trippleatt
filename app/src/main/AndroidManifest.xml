@@ -14,6 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Trippleatt">
+        <activity
+            android:name=".ui.otpV2.OtpVerification"
+            android:exported="true" />
+        <activity
+            android:name=".ui.bSU6.BusinessSignUp6"
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
