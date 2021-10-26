@@ -1,20 +1,17 @@
-package com.example.trippleatt.ui.BusinessLS
+package com.example.trippleatt.ui.businessLS
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import com.example.trippleatt.ui.BusinessSU.BusinessSignUp
+import com.example.trippleatt.ui.businessSU.BusinessSignUp
 import com.example.trippleatt.OtpVerification
 import com.example.trippleatt.WelcomeScreen
 import com.example.trippleatt.data.Result
 import com.example.trippleatt.databinding.ActivityBusinessLoginScreenBinding
 import com.example.trippleatt.util.log
 import com.example.trippleatt.util.toast
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import java.util.regex.Pattern
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein

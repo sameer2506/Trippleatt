@@ -1,20 +1,14 @@
-package com.example.trippleatt.ui.BusinessSU
+package com.example.trippleatt.ui.businessSU
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import com.example.trippleatt.BusinessSignUp3
+import com.example.trippleatt.ui.bSU3.BusinessSignUp3
 import com.example.trippleatt.OtpVerification
-import com.example.trippleatt.R
 import com.example.trippleatt.databinding.ActivityBusineesSignUpBinding
-import com.example.trippleatt.databinding.ActivityBusinessLoginScreenBinding
-import com.example.trippleatt.ui.BusinessLS.BusinessLSVM
-import com.example.trippleatt.ui.BusinessLS.BusinessLSVMF
-import com.example.trippleatt.ui.BusinessLS.BusinessLoginScreen
-import com.example.trippleatt.ui.LoginScreen
+import com.example.trippleatt.ui.businessLS.BusinessLoginScreen
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -30,7 +24,6 @@ class BusinessSignUp : AppCompatActivity(), KodeinAware {
     private lateinit var binding: ActivityBusineesSignUpBinding
     private lateinit var viewModel: BusinessSUVM
     private lateinit var view: View
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +43,7 @@ class BusinessSignUp : AppCompatActivity(), KodeinAware {
                 finish()
             } else if (isValidMobile(data)) {
                 var phoneNumber = binding.etUserDetails.text.toString().trim()
-
                 phoneNumber = "+91$phoneNumber"
-
                 startPhoneNumberVerification(phoneNumber)
             }
         }

@@ -2,8 +2,8 @@ package com.example.trippleatt
 
 import android.app.Application
 import com.example.trippleatt.data.Repository
-import com.example.trippleatt.ui.BusinessLS.BusinessLSVMF
-import com.example.trippleatt.ui.BusinessSU.BusinessSUVMF
+import com.example.trippleatt.ui.businessLS.BusinessLSVMF
+import com.example.trippleatt.ui.businessSU.BusinessSUVMF
 import com.example.trippleatt.ui.DataViewModel
 import com.example.trippleatt.ui.ViewModelFactory
 import org.kodein.di.Kodein

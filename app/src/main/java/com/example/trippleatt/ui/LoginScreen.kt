@@ -17,8 +17,7 @@ import android.widget.Toast
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import com.example.trippleatt.AppPreferences
-import com.example.trippleatt.ui.BusinessLS.BusinessLoginScreen
+import com.example.trippleatt.ui.businessLS.BusinessLoginScreen
 import com.example.trippleatt.OtpVerification
 import com.example.trippleatt.R
 import com.example.trippleatt.databinding.ActivityLoginBinding

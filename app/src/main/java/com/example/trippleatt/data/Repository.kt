@@ -2,13 +2,7 @@ package com.example.trippleatt.data
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.util.Log
-import android.widget.Toast
 import com.example.trippleatt.AppPreferences
-import com.example.trippleatt.WelcomeScreen
-import com.example.trippleatt.ui.BusinessLS.BusinessLoginScreen
-import com.example.trippleatt.ui.LoginScreen
 import com.example.trippleatt.util.log
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -95,6 +89,18 @@ class Repository(context: Context) : DataSource {
                 }
         }
 
+    // Business Sign Up 3 Activity
+
+    override suspend fun createUserAccount(email: String, password: String): Result<Boolean> =
+        suspendCoroutine { cont ->
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener {
+                    cont.resume(Result.Success(true))
+                }
+                .addOnFailureListener {
+                    cont.resume(Result.Error(it))
+                }
+        }
 
 
 }

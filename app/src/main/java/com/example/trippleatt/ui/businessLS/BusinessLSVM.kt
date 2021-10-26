@@ -1,10 +1,9 @@
-package com.example.trippleatt.ui.BusinessLS
+package com.example.trippleatt.ui.businessLS
 
 import android.app.Activity
 import androidx.lifecycle.*
 import com.example.trippleatt.data.Repository
 import com.example.trippleatt.data.Result
-import com.example.trippleatt.data.repository.BusinessLSRepo
 import kotlinx.coroutines.launch
 
 class BusinessLSVM(

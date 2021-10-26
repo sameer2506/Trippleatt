@@ -8,4 +8,6 @@ interface DataSource {
 
     suspend fun signInWithEmail(email: String, password: String) :Result<Boolean>
 
+    suspend fun createUserAccount(email: String, password: String) : Result<Boolean>
+
 }

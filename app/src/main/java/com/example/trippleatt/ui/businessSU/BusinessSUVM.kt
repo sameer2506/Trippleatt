@@ -1,4 +1,4 @@
-package com.example.trippleatt.ui.BusinessSU
+package com.example.trippleatt.ui.businessSU
 
 import android.app.Activity
 import androidx.lifecycle.LiveData
