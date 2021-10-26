@@ -11,7 +11,6 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import java.util.concurrent.TimeUnit
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.Toast
 
@@ -19,7 +18,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.trippleatt.AppPreferences
-import com.example.trippleatt.BusinessLoginScreen
+import com.example.trippleatt.ui.BusinessLS.BusinessLoginScreen
 import com.example.trippleatt.OtpVerification
 import com.example.trippleatt.R
 import com.example.trippleatt.databinding.ActivityLoginBinding
@@ -28,7 +27,6 @@ import com.example.trippleatt.util.log
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthCredential
-import org.kodein.di.Kodein
 
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
@@ -59,7 +57,6 @@ class LoginScreen : AppCompatActivity(), KodeinAware {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         view = binding.root

@@ -37,7 +37,7 @@
         <activity
             android:name=".ui.LoginScreen"
             android:exported="true" />
-        <activity android:name=".BusinessLoginScreen" />
+        <activity android:name=".ui.BusinessLS.BusinessLoginScreen" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
