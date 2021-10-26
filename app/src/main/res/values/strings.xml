@@ -5,4 +5,5 @@
     <string name="business_signin_text_und"><u>Sign In</u>></string>
     <string name="otp_verification_text">OTP has been send to your Mobile phone. Please enter it below.</string>
     <string name="otp_verification_text2">OTP has been send to XXXXXXXXXX. Please enter OTP to verify Shop.</string>
+    <string name="save_and_continue">Save &amp; Continue</string>
 </resources>

@@ -5,7 +5,7 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.bSU6.BusinessSignUp6">
+    tools:context=".ui.sss2.SignUpScreen2">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout4"
@@ -69,19 +69,51 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/tvAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment" />
 
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/tvAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm Location"
+        android:text="Bhagalpur"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etBlockNo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map" />
+
+    <EditText
+        android:id="@+id/etBlockNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Block No/ House/ Flat"
+        app:layout_constraintBottom_toTopOf="@+id/etLandmark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
+
+    <EditText
+        android:id="@+id/etLandmark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Landmark"
+        app:layout_constraintBottom_toTopOf="@+id/btnSaveAndContinue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etBlockNo" />
+
+    <Button
+        android:id="@+id/btnSaveAndContinue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_and_continue"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
