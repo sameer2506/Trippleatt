@@ -1,4 +1,4 @@
-package com.example.trippleatt
+package com.example.trippleatt.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -15,24 +15,41 @@ import java.util.concurrent.TimeUnit
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.Toast
 
-import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
-import com.google.android.gms.tasks.TaskExecutors
+import androidx.lifecycle.ViewModelProvider
+import com.example.trippleatt.AppPreferences
+import com.example.trippleatt.BusinessLoginScreen
+import com.example.trippleatt.OtpVerification
+import com.example.trippleatt.R
+import com.example.trippleatt.databinding.ActivityLoginBinding
+import com.example.trippleatt.util.log
 
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
-import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
 import com.google.firebase.auth.PhoneAuthCredential
+import org.kodein.di.Kodein
 
-class LoginScreen : AppCompatActivity() {
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.kodein
+import org.kodein.di.generic.instance
+
+
+class LoginScreen : AppCompatActivity(), KodeinAware {
+
+    override val kodein by kodein()
+
+    private val factory: ViewModelFactory by instance()
+
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var viewModel: DataViewModel
+    private lateinit var view: View
 
     private lateinit var btnGenerateOtp: Button
     private lateinit var etPhoneNumber: EditText
     private lateinit var goToBusinessAccount: TextView
 
     private var phoneNumber: String = ""
-    private var otp: Int = 0
 
     private lateinit var auth: FirebaseAuth
 
@@ -44,12 +61,17 @@ class LoginScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        view = binding.root
+        viewModel =ViewModelProvider(this, factory).get(DataViewModel::class.java)
+        setContentView(view)
+
         findViews()
 
-        Log.d(TAG, "Login Screen activity created")
+        log("Login Screen activity created")
 
-        btnGenerateOtp.setOnClickListener {
-            phoneNumber = etPhoneNumber.text.toString().trim()
+        binding.btnSendOtp.setOnClickListener {
+            phoneNumber = binding.etMobileNumber.text.toString().trim()
 
             phoneNumber = "+91$phoneNumber"
             Log.d(TAG, phoneNumber)
@@ -58,14 +80,14 @@ class LoginScreen : AppCompatActivity() {
 
         }
 
-        goToBusinessAccount.setOnClickListener {
+        binding.goToBusinessAccount.setOnClickListener {
             startActivity(Intent(this, BusinessLoginScreen::class.java))
         }
 
         mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             override fun onCodeSent(verificationId: String, token: ForceResendingToken) {
-                super.onCodeSent(verificationId,token)
+                super.onCodeSent(verificationId, token)
 
                 //Log.d(TAG, "onCodeSent:$verificationId")
 
@@ -78,7 +100,7 @@ class LoginScreen : AppCompatActivity() {
                 credential: PhoneAuthCredential
             ) {
                 val code = credential.smsCode
-                if (code!=null){
+                if (code != null) {
                     verifyCode(code)
                 }
                 Log.d(TAG, "verification completed:$credential")
@@ -88,13 +110,16 @@ class LoginScreen : AppCompatActivity() {
 
             override fun onVerificationFailed(e: FirebaseException) {
                 Log.d(TAG, "onVerificationFailed:$e")
-                Toast.makeText(this@LoginScreen, "onVerificationFailed:$e", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@LoginScreen, "onVerificationFailed:$e", Toast.LENGTH_LONG)
+                    .show()
 
-                if (e is FirebaseAuthInvalidCredentialsException){
+                if (e is FirebaseAuthInvalidCredentialsException) {
                     Log.d(TAG, "FirebaseAuthInvalidCredentialsException: Invalid request")
-                }
-                else if(e is FirebaseTooManyRequestsException){
-                    Log.d(TAG, "FirebaseTooManyRequestsException: The SMS quota for the project has been exceeded")
+                } else if (e is FirebaseTooManyRequestsException) {
+                    Log.d(
+                        TAG,
+                        "FirebaseTooManyRequestsException: The SMS quota for the project has been exceeded"
+                    )
                 }
             }
 
@@ -102,31 +127,30 @@ class LoginScreen : AppCompatActivity() {
 
     }
 
-    fun startPhoneNumberVerification(phoneNumber: String){
-        val options = PhoneAuthOptions.newBuilder(auth)
-            .setPhoneNumber(phoneNumber)
-            .setTimeout(60, TimeUnit.SECONDS)
-            .setActivity(this)
-            .setCallbacks(mCallbacks)
-            .build()
+    private fun startPhoneNumberVerification(phoneNumber: String) {
+        viewModel.sendOtp(phoneNumber, this)
 
-        PhoneAuthProvider.verifyPhoneNumber(options)
+        val appPreferences = AppPreferences(this)
+
+        val code = appPreferences.getCode().toString()
+        verificationCode = appPreferences.getVerificationCode().toString()
+
+        log("testing")
+        log("code: $code")
+
+        startActivity(Intent(this, OtpVerification::class.java))
+
     }
 
-    fun verifyCode(code: String){
+    fun verifyCode(code: String) {
 
         val intent = Intent(this, OtpVerification::class.java)
         intent.putExtra("code", code)
         intent.putExtra("verificationCode", verificationCode)
         startActivity(intent)
-        //below line is used for getting getting credentials from our verification id and code.
-        val credential = PhoneAuthProvider.getCredential(verificationCode, code)
-        //after getting credential we are calling sign in method.
-        //after getting credential we are calling sign in method.
-        //signInWithCredential(credential)
     }
 
-    fun findViews(){
+    fun findViews() {
         btnGenerateOtp = findViewById(R.id.btnSendOtp)
 
         etPhoneNumber = findViewById(R.id.etMobileNumber)
@@ -135,7 +159,6 @@ class LoginScreen : AppCompatActivity() {
 
         auth = Firebase.auth
     }
-
 
 
     companion object {

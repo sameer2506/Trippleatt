@@ -12,9 +12,8 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'com.google.gms:google-services:4.3.10'
 
-        // Navigation
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0-beta02"
     }
+
 }
 
 task clean(type: Delete) {

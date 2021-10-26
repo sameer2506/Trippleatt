@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.trippleatt.util.log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
@@ -41,6 +42,17 @@ class OtpVerification : AppCompatActivity() {
 
         code = intent.getStringExtra("code").toString()
         verificationCode = intent.getStringExtra("verificationCode").toString()
+
+        val appPreferences = AppPreferences(this)
+
+       // code = appPreferences.getCode().toString()
+        //verificationCode = appPreferences.getVerificationCode().toString()
+
+        code = appPreferences.getCode().toString()
+        verificationCode = appPreferences.getVerificationCode().toString()
+
+        log("testing")
+        log("code: $code")
 
         etOtpBox1.setText(code[0].toString())
         etOtpBox2.setText(code[1].toString())
