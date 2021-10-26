@@ -20,4 +20,13 @@ class BusinessLSVM(
         _signInWithEmail.value = repository.signInWithEmail(email, password)
     }
 
+    private val _sendOtp : MutableLiveData<Result<Boolean>> = MutableLiveData()
+    val sendOtp : LiveData<Result<Boolean>>
+        get() = _sendOtp
+
+    fun sendOtp(phoneNumber: String, activity: Activity) = viewModelScope.launch {
+        _sendOtp.value = Result.Loading
+        _sendOtp.value = repository.sendOtp(phoneNumber, activity)
+    }
+
 }

@@ -127,14 +127,6 @@ class LoginScreen : AppCompatActivity(), KodeinAware {
     private fun startPhoneNumberVerification(phoneNumber: String) {
         viewModel.sendOtp(phoneNumber, this)
 
-        val appPreferences = AppPreferences(this)
-
-        val code = appPreferences.getCode().toString()
-        verificationCode = appPreferences.getVerificationCode().toString()
-
-        log("testing")
-        log("code: $code")
-
         startActivity(Intent(this, OtpVerification::class.java))
 
     }

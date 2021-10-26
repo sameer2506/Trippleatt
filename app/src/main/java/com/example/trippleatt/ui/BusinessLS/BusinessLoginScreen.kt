@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.example.trippleatt.BusinessSignUp
+import com.example.trippleatt.OtpVerification
 import com.example.trippleatt.R
 import com.example.trippleatt.WelcomeScreen
 import com.example.trippleatt.data.Result
@@ -39,6 +41,8 @@ class BusinessLoginScreen : AppCompatActivity(), KodeinAware {
 
     private lateinit var auth: FirebaseAuth
 
+    private var flag = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,15 +58,34 @@ class BusinessLoginScreen : AppCompatActivity(), KodeinAware {
             val password = binding.etPassword.text.toString().trim()
 
             if (isValidMail(userDetails)) {
+                flag = true
                 signInWithEmail(userDetails, password)
-            } else if (isValidMobile(userDetails)) {
+            }
+            else
+                flag = false
+            if (isValidMobile(userDetails)) {
+                flag = true
                 loginUsingMobile(userDetails)
             }
+            else
+                flag = false
+            if (!flag){
+                binding.etUserDetails.error = "Invalid format."
+            }
+        }
+
+        binding.goToBusinessSignUp.setOnClickListener {
+            startActivity(Intent(this, BusinessSignUp::class.java))
+            finish()
         }
 
     }
 
     private fun loginUsingMobile(phone: String) {
+        viewModel.sendOtp("+91$phone", this)
+
+        startActivity(Intent(this, OtpVerification::class.java))
+
     }
 
     private fun signInWithEmail(email: String, password: String) {
@@ -92,7 +115,7 @@ class BusinessLoginScreen : AppCompatActivity(), KodeinAware {
     }
 
     private fun isValidMobile(phone: String): Boolean {
-        return if (!Pattern.matches("[a-zA-Z]+", phone)) {
+        return if (!Pattern.matches("^[+91][0-9]{10}$", phone)) {
             phone.length == 10
         } else false
     }
