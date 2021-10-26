@@ -32,7 +32,7 @@
             android:name=".OtpVerification"
             android:exported="true" />
         <activity
-            android:name=".BusinessSignUp"
+            android:name=".ui.BusinessSU.BusinessSignUp"
             android:exported="true" />
         <activity
             android:name=".ui.LoginScreen"

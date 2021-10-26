@@ -3,21 +3,13 @@ package com.example.trippleatt.ui.BusinessLS
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.trippleatt.BusinessSignUp
+import com.example.trippleatt.ui.BusinessSU.BusinessSignUp
 import com.example.trippleatt.OtpVerification
-import com.example.trippleatt.R
 import com.example.trippleatt.WelcomeScreen
 import com.example.trippleatt.data.Result
 import com.example.trippleatt.databinding.ActivityBusinessLoginScreenBinding
-import com.example.trippleatt.databinding.ActivityLoginBinding
-import com.example.trippleatt.ui.DataViewModel
-import com.example.trippleatt.ui.ViewModelFactory
 import com.example.trippleatt.util.log
 import com.example.trippleatt.util.toast
 import com.google.firebase.auth.FirebaseAuth
@@ -27,7 +19,6 @@ import java.util.regex.Pattern
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
-
 
 class BusinessLoginScreen : AppCompatActivity(), KodeinAware {
 
@@ -39,8 +30,6 @@ class BusinessLoginScreen : AppCompatActivity(), KodeinAware {
     private lateinit var viewModel: BusinessLSVM
     private lateinit var view: View
 
-    private lateinit var auth: FirebaseAuth
-
     private var flag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +39,6 @@ class BusinessLoginScreen : AppCompatActivity(), KodeinAware {
         view = binding.root
         viewModel = ViewModelProvider(this, factory).get(BusinessLSVM::class.java)
         setContentView(view)
-
-        auth = Firebase.auth
 
         binding.btnLogin.setOnClickListener {
             val userDetails = binding.etUserDetails.text.toString().trim()

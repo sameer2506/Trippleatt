@@ -60,7 +60,7 @@ class LoginScreen : AppCompatActivity(), KodeinAware {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         view = binding.root
-        viewModel =ViewModelProvider(this, factory).get(DataViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory).get(DataViewModel::class.java)
         setContentView(view)
 
         findViews()
@@ -71,10 +71,8 @@ class LoginScreen : AppCompatActivity(), KodeinAware {
             phoneNumber = binding.etMobileNumber.text.toString().trim()
 
             phoneNumber = "+91$phoneNumber"
-            Log.d(TAG, phoneNumber)
 
             startPhoneNumberVerification(phoneNumber)
-
         }
 
         binding.goToBusinessAccount.setOnClickListener {
