@@ -8,7 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.example.trippleatt.WelcomeScreen
-import com.example.trippleatt.data.Result
+import com.example.trippleatt.data.Results
 import com.example.trippleatt.databinding.ActivityBusinessDetailsBinding
 import com.example.trippleatt.util.log
 import com.example.trippleatt.util.toast
@@ -89,11 +89,11 @@ class BusinessDetails : AppCompatActivity(), KodeinAware {
 
                 viewModel.uploadImage.observe(this, {
                     when (it) {
-                        is Result.Success -> {
+                        is Results.Success -> {
                             frontImageLink = it.data.link
                             Picasso.get().load(frontImageLink).into(binding.frontImage)
                         }
-                        is Result.Error -> {
+                        is Results.Error -> {
                             val builder = AlertDialog.Builder(this)
                             builder.setTitle("Error")
                             builder.setMessage("Image is too large")
@@ -102,7 +102,7 @@ class BusinessDetails : AppCompatActivity(), KodeinAware {
                             alertDialog.setCancelable(false)
                             alertDialog.show()
                         }
-                        is Result.Loading -> {
+                        is Results.Loading -> {
                         }
                     }
                 })
@@ -119,11 +119,11 @@ class BusinessDetails : AppCompatActivity(), KodeinAware {
 
                 viewModel.uploadImage.observe(this, {
                     when (it) {
-                        is Result.Success -> {
+                        is Results.Success -> {
                             image1Link = it.data.link
                             Picasso.get().load(image1Link).into(binding.frontImage)
                         }
-                        is Result.Error -> {
+                        is Results.Error -> {
                             val builder = AlertDialog.Builder(this)
                             builder.setTitle("Error")
                             builder.setMessage("Image is too large")
@@ -132,7 +132,7 @@ class BusinessDetails : AppCompatActivity(), KodeinAware {
                             alertDialog.setCancelable(false)
                             alertDialog.show()
                         }
-                        is Result.Loading -> {
+                        is Results.Loading -> {
                         }
                     }
                 })
@@ -148,11 +148,11 @@ class BusinessDetails : AppCompatActivity(), KodeinAware {
 
                 viewModel.uploadImage.observe(this, {
                     when (it) {
-                        is Result.Success -> {
+                        is Results.Success -> {
                             image2Link = it.data.link
                             Picasso.get().load(image2Link).into(binding.frontImage)
                         }
-                        is Result.Error -> {
+                        is Results.Error -> {
                             val builder = AlertDialog.Builder(this)
                             builder.setTitle("Error")
                             builder.setMessage("Image is too large")
@@ -161,7 +161,7 @@ class BusinessDetails : AppCompatActivity(), KodeinAware {
                             alertDialog.setCancelable(false)
                             alertDialog.show()
                         }
-                        is Result.Loading -> {
+                        is Results.Loading -> {
                         }
                     }
                 })
@@ -191,15 +191,15 @@ class BusinessDetails : AppCompatActivity(), KodeinAware {
 
         viewModel.saveBusinessDetails.observe(this, {
             when (it) {
-                is Result.Success -> {
+                is Results.Success -> {
                     startActivity(Intent(this, WelcomeScreen::class.java))
                     finish()
                 }
-                is Result.Error -> {
+                is Results.Error -> {
                     log("signInWithEmail failure: ${it.exception.localizedMessage}")
                     toast("Try again later.")
                 }
-                is Result.Loading -> {
+                is Results.Loading -> {
                 }
             }
         })

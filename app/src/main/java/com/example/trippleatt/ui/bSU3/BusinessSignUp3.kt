@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.example.trippleatt.ui.bSU4.BusinessSignUp4
-import com.example.trippleatt.data.Result
+import com.example.trippleatt.data.Results
 import com.example.trippleatt.databinding.ActivityBusinessSignUp3Binding
 import com.example.trippleatt.util.log
 import com.example.trippleatt.util.toast
@@ -57,15 +57,15 @@ class BusinessSignUp3 : AppCompatActivity(), KodeinAware {
 
         viewModel.createUserAccount.observe(this, { result ->
             when(result){
-                is Result.Success -> {
+                is Results.Success -> {
                     startActivity(Intent(this, BusinessSignUp4::class.java))
                     finish()
                 }
-                is Result.Error -> {
+                is Results.Error -> {
                     log("signInWithEmail failure: ${result.exception.localizedMessage}")
                     toast("Authentication failed.")
                 }
-                is Result.Loading -> {
+                is Results.Loading -> {
                 }
             }
         })

@@ -3,7 +3,6 @@ package com.example.trippleatt.data
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
-import androidx.appcompat.app.AlertDialog
 import com.example.trippleatt.AppPreferences
 import com.example.trippleatt.util.log
 import com.google.firebase.FirebaseException
@@ -14,7 +13,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.squareup.picasso.Picasso
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -27,7 +25,7 @@ class Repository(context: Context) : DataSource {
 
     private lateinit var storageReference: StorageReference
 
-    val firestoreDatabase: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val firestoreDatabase: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val appPreferences = AppPreferences(context)
 
@@ -46,7 +44,7 @@ class Repository(context: Context) : DataSource {
                 verificationCode = verificationId
                 appPreferences.saveVerificationCode(verificationCode)
                 log("Code sent Successfully.")
-                Result.Success(true)
+                Results.Success(true)
             }
 
             override fun onVerificationCompleted(
@@ -61,20 +59,20 @@ class Repository(context: Context) : DataSource {
 
             override fun onVerificationFailed(e: FirebaseException) {
                 log("onVerificationFailed:$e")
-                Result.Error(e)
+                Results.Error(e)
 
                 if (e is FirebaseAuthInvalidCredentialsException) {
                     log("FirebaseAuthInvalidCredentialsException: Invalid request")
-                    Result.Error(e)
+                    Results.Error(e)
                 } else if (e is FirebaseTooManyRequestsException) {
                     log("FirebaseTooManyRequestsException: The SMS quota for the project has been exceeded")
-                    Result.Error(e)
+                    Results.Error(e)
                 }
             }
 
         }
 
-    override suspend fun sendOtp(phoneNumber: String, activity: Activity): Result<Boolean> =
+    override suspend fun sendOtp(phoneNumber: String, activity: Activity): Results<Boolean> =
         suspendCoroutine {
             val options = PhoneAuthOptions.newBuilder(auth)
                 .setPhoneNumber(phoneNumber)
@@ -88,46 +86,45 @@ class Repository(context: Context) : DataSource {
 
     // Business Logic Screen Activity
 
-    override suspend fun signInWithEmail(email: String, password: String): Result<Boolean> =
+    override suspend fun signInWithEmail(email: String, password: String): Results<Boolean> =
         suspendCoroutine { cont ->
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    cont.resume(Result.Success(true))
+                    cont.resume(Results.Success(true))
                 }
                 .addOnFailureListener {
-                    cont.resume(Result.Error(it))
+                    cont.resume(Results.Error(it))
                 }
         }
 
     // Business Sign Up 3 Activity
 
-    override suspend fun createUserAccount(email: String, password: String): Result<Boolean> =
+    override suspend fun createUserAccount(email: String, password: String): Results<Boolean> =
         suspendCoroutine { cont ->
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    cont.resume(Result.Success(true))
+                    cont.resume(Results.Success(true))
                 }
                 .addOnFailureListener {
-                    cont.resume(Result.Error(it))
+                    cont.resume(Results.Error(it))
                 }
         }
 
     // Upload Image
 
-    override suspend fun uploadImage(data: Uri, rnds: Int): Result<FileLink> =
+    override suspend fun uploadImage(data: Uri, rnds: Int): Results<FileLink> =
         suspendCoroutine {
             storageReference = FirebaseStorage.getInstance().getReference("$rnds")
 
             val uploadTask = storageReference.putFile(data)
-            uploadTask.continueWithTask{
-                    task ->
+            uploadTask.continueWithTask { task ->
                 if (!task.isSuccessful) {
                     throw task.exception!!
                 }
                 storageReference.downloadUrl
             }.addOnCompleteListener { task ->
                 val data = FileLink(task.result.toString())
-                Result.Success(data)
+                Results.Success(data)
             }
         }
 
@@ -135,17 +132,34 @@ class Repository(context: Context) : DataSource {
 
     override suspend fun saveBusinessDetails(
         data: HashMap<String, Any>
-    ): Result<Boolean> =
+    ): Results<Boolean> =
         suspendCoroutine { cont ->
             firestoreDatabase
                 .collection("details")
                 .document()
                 .set(data)
                 .addOnSuccessListener {
-                    cont.resume(Result.Success(true))
+                    cont.resume(Results.Success(true))
                 }
                 .addOnFailureListener {
-                    cont.resume(Result.Error(it))
+                    cont.resume(Results.Error(it))
+                }
+        }
+
+    override suspend fun getShopList(): Results<List<ShopListData>> =
+        suspendCoroutine { cont ->
+            val query = firestoreDatabase
+                .collection("details")
+
+            query
+                .get()
+                .addOnSuccessListener { queryList ->
+                    val shopList: List<ShopListData> =
+                        queryList.toObjects(ShopListData::class.java) as List<ShopListData>
+                    cont.resume(Results.Success(shopList))
+                }
+                .addOnFailureListener {
+                    cont.resume(Results.Error(it))
                 }
         }
 

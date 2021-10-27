@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.trippleatt.ui.businessSU.BusinessSignUp
 import com.example.trippleatt.OtpVerification
 import com.example.trippleatt.WelcomeScreen
-import com.example.trippleatt.data.Result
+import com.example.trippleatt.data.Results
 import com.example.trippleatt.databinding.ActivityBusinessLoginScreenBinding
 import com.example.trippleatt.util.log
 import com.example.trippleatt.util.toast
@@ -78,15 +78,15 @@ class BusinessLoginScreen : AppCompatActivity(), KodeinAware {
 
         viewModel.signInWithEmail.observe(this, { result ->
             when (result) {
-                is Result.Success -> {
+                is Results.Success -> {
                     val intent = Intent(this, WelcomeScreen::class.java)
                     startActivity(intent)
                 }
-                is Result.Error -> {
+                is Results.Error -> {
                     log("signInWithEmail failure: ${result.exception.localizedMessage}")
                     toast("Authentication failed.")
                 }
-                is Result.Loading -> {
+                is Results.Loading -> {
                 }
             }
         })
