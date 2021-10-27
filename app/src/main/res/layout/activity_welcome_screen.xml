@@ -17,6 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="128dp"
             android:text="Welcome To The Home Screen"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -31,8 +32,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
         android:text="Customer Sign Up"
         android:textAllCaps="false"
+        android:backgroundTint="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
@@ -40,6 +43,8 @@
         android:id="@+id/btnBusinessSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
         android:text="Business Sign Up"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,8 +54,11 @@
         android:id="@+id/btnExistShop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:text="Exist Shop"
         android:textAllCaps="false"
+        android:backgroundTint="#0000ff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCustomerSignUp" />
 
@@ -58,9 +66,11 @@
         android:id="@+id/btnBusinessSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="25dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:text="Businessstomer Sign In"
         android:textAllCaps="false"
+        android:backgroundTint="#ff0000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnBusinessSignUp" />
 

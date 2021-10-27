@@ -1,16 +1,15 @@
 package com.example.trippleatt.ui.bSU3
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.trippleatt.ui.bSU4.BusinessSignUp4
 import com.example.trippleatt.data.Results
 import com.example.trippleatt.databinding.ActivityBusinessSignUp3Binding
+import com.example.trippleatt.ui.bSU4.BusinessSignUp4
 import com.example.trippleatt.util.log
 import com.example.trippleatt.util.toast
-import com.google.firebase.auth.FirebaseAuth
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -27,8 +26,6 @@ class BusinessSignUp3 : AppCompatActivity(), KodeinAware {
     private lateinit var view: View
 
     private var email: String = ""
-
-    private lateinit var auth : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +49,16 @@ class BusinessSignUp3 : AppCompatActivity(), KodeinAware {
 
         val password = binding.etPassword.text.toString().trim()
         val cPassword = binding.etConfirmPassword.text.toString().trim()
+
+        if (password.length < 6){
+            binding.etPassword.error = "Password too short."
+            return
+        }
+
+        if (password != cPassword){
+            binding.etConfirmPassword.error = "Password don't match."
+            return
+        }
 
         viewModel.createUserAccount(email, password)
 

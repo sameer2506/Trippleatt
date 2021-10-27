@@ -1,101 +1,100 @@
 package com.example.trippleatt.ui.otpV
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.content.Intent
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.trippleatt.AppPreferences
 import com.example.trippleatt.R
 import com.example.trippleatt.WelcomeScreen
+import com.example.trippleatt.data.Results
+import com.example.trippleatt.databinding.ActivityOtpVerificationBinding
 import com.example.trippleatt.util.log
-import com.google.firebase.auth.FirebaseAuth
+import com.example.trippleatt.util.toast
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.kodein
+import org.kodein.di.generic.instance
 
 
-class OtpVerification : AppCompatActivity() {
+class OtpVerification : AppCompatActivity(), KodeinAware {
+
+    override val kodein by kodein()
+
+    private val factory: OtpVVMF by instance()
+
+    private lateinit var binding: ActivityOtpVerificationBinding
+    private lateinit var viewModel: OtpVVM
+    private lateinit var view: View
+
+    private lateinit var appPreferences: AppPreferences
 
     private lateinit var code: String
     private lateinit var verificationCode: String
 
-    private lateinit var etOtpBox1: EditText
-    private lateinit var etOtpBox2: EditText
-    private lateinit var etOtpBox3: EditText
-    private lateinit var etOtpBox4: EditText
-    private lateinit var etOtpBox5: EditText
-    private lateinit var etOtpBox6: EditText
-    private lateinit var btnOtpVerify: Button
-
-    private lateinit var auth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_otp_verification)
 
-        initViews()
+        binding = ActivityOtpVerificationBinding.inflate(layoutInflater)
+        view = binding.root
+        viewModel = ViewModelProvider(this, factory).get(OtpVVM::class.java)
+        setContentView(view)
 
-        val intent = intent
-
-        auth = Firebase.auth
-
-        code = intent.getStringExtra("code").toString()
-        verificationCode = intent.getStringExtra("verificationCode").toString()
-
-        val appPreferences = AppPreferences(this)
-
-       // code = appPreferences.getCode().toString()
-        //verificationCode = appPreferences.getVerificationCode().toString()
+        appPreferences = AppPreferences(this)
 
         code = appPreferences.getCode().toString()
         verificationCode = appPreferences.getVerificationCode().toString()
 
-        log("testing")
-        log("code: $code")
+        binding.otpEditBox1.setText(code[0].toString())
+        binding.otpEditBox2.setText(code[1].toString())
+        binding.otpEditBox3.setText(code[2].toString())
+        binding.otpEditBox4.setText(code[3].toString())
+        binding.otpEditBox5.setText(code[4].toString())
+        binding.otpEditBox6.setText(code[5].toString())
 
-        etOtpBox1.setText(code[0].toString())
-        etOtpBox2.setText(code[1].toString())
-        etOtpBox3.setText(code[2].toString())
-        etOtpBox4.setText(code[3].toString())
-        etOtpBox5.setText(code[4].toString())
-        etOtpBox6.setText(code[5].toString())
-
-        btnOtpVerify.setOnClickListener {
+        binding.btnOtpVerify.setOnClickListener {
             verifyOtp(verificationCode, code)
         }
 
+        binding.textView4.setOnClickListener {
+            startPhoneNumberVerification(appPreferences.getPhoneNumber()!!)
+        }
 
     }
 
-    fun verifyOtp(verificationCode: String, code: String){
+    private fun verifyOtp(verificationCode: String, code: String) {
+
+        appPreferences.saveVerificationCode("")
+        appPreferences.saveCode("")
 
         //below line is used for getting getting credentials from our verification id and code.
         val credential = PhoneAuthProvider.getCredential(verificationCode, code)
 
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful){
-                    val intent  = Intent(this, WelcomeScreen::class.java)
+        viewModel.verifyOtp(credential)
+
+        viewModel.verifyOtp.observe(this, {
+            when (it) {
+                is Results.Success -> {
+                    val intent = Intent(this, WelcomeScreen::class.java)
                     startActivity(intent)
-                } else{
-                    Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                is Results.Error -> {
+                    log("signInWithEmail failure: ${it.exception.localizedMessage}")
+                    toast("Authentication failed.")
+                }
+                is Results.Loading -> {
                 }
             }
+        })
+
     }
 
-    fun initViews(){
-        etOtpBox1 = findViewById(R.id.otp_edit_box1)
-        etOtpBox2 = findViewById(R.id.otp_edit_box2)
-        etOtpBox3 = findViewById(R.id.otp_edit_box3)
-        etOtpBox4 = findViewById(R.id.otp_edit_box4)
-        etOtpBox5 = findViewById(R.id.otp_edit_box5)
-        etOtpBox6 = findViewById(R.id.otp_edit_box6)
-        btnOtpVerify = findViewById(R.id.btnOtpVerify)
+    private fun startPhoneNumberVerification(phoneNumber: String) {
+        viewModel.sendOtp(phoneNumber, this)
+        startActivity(Intent(this, OtpVerification::class.java))
+        finish()
     }
 
-    companion object {
-        private const val TAG = "PhoneAuthActivity"
-    }
 }

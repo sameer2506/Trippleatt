@@ -2,10 +2,15 @@ package com.example.trippleatt
 
 import android.app.Application
 import com.example.trippleatt.data.Repository
+import com.example.trippleatt.ui.bSU3.BusinessSU3VMF
+import com.example.trippleatt.ui.bSU5.BusinessSU5VMF
+import com.example.trippleatt.ui.businessDetails.BusinessDetailsVMF
 import com.example.trippleatt.ui.businessLS.BusinessLSVMF
 import com.example.trippleatt.ui.businessSU.BusinessSUVMF
 import com.example.trippleatt.ui.loginScreen.LoginScreenVM
 import com.example.trippleatt.ui.loginScreen.LoginScreenVMF
+import com.example.trippleatt.ui.otpV.OtpVVMF
+import com.example.trippleatt.ui.signUpScreen.SignUpScrVMF
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -25,5 +30,10 @@ class Application : Application(), KodeinAware {
         bind() from provider { LoginScreenVMF(instance()) }
         bind() from provider { BusinessLSVMF(instance()) }
         bind() from provider { BusinessSUVMF(instance()) }
+        bind() from provider { BusinessSU3VMF(instance()) }
+        bind() from provider { BusinessSU5VMF(instance()) }
+        bind() from provider { BusinessDetailsVMF(instance()) }
+        bind() from provider { OtpVVMF(instance()) }
+        bind() from provider { SignUpScrVMF(instance()) }
     }
 }

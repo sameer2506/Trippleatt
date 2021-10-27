@@ -8,6 +8,7 @@ class AppPreferences(ctx: Context) {
     private var verificationCode: SharedPreferences = ctx.getSharedPreferences("APP_PREFRENCES",Context.MODE_PRIVATE)
     private var codeForVerify: SharedPreferences = ctx.getSharedPreferences("APP_PREFRENCES",Context.MODE_PRIVATE)
     private var phoneNumber: SharedPreferences = ctx.getSharedPreferences("APP_PREFRENCES",Context.MODE_PRIVATE)
+    private var shopId: SharedPreferences = ctx.getSharedPreferences("APP_PREFRENCES",Context.MODE_PRIVATE)
 
     fun saveVerificationCode(verification: String){
         verificationCode.edit().putString("verificationCode",verification).apply()
@@ -25,11 +26,19 @@ class AppPreferences(ctx: Context) {
         return codeForVerify.getString("code","")
     }
 
-    fun savePhoneNumber(phoneNumber: String){
-        codeForVerify.edit().putString("phoneNumber",phoneNumber).apply()
+    fun savePhoneNumber(phone: String){
+        phoneNumber.edit().putString("phoneNumber",phone).apply()
     }
 
     fun getPhoneNumber(): String? {
-        return codeForVerify.getString("phoneNumber","")
+        return phoneNumber.getString("phoneNumber","")
+    }
+
+    fun saveShopId(id: Long){
+        shopId.edit().putLong("shopId", id).apply()
+    }
+
+    fun getShopId(): Long {
+        return shopId.getLong("shopId", -1)
     }
 }

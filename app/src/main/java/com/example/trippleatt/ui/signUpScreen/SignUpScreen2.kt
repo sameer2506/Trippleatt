@@ -1,22 +1,21 @@
-package com.example.trippleatt.ui.bSU5
+package com.example.trippleatt.ui.signUpScreen
 
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
 import android.location.Location
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.trippleatt.AppPreferences
 import com.example.trippleatt.R
-import com.example.trippleatt.data.Results
 import com.example.trippleatt.databinding.ActivityBussinessSignUp5Binding
-import com.example.trippleatt.ui.bSU6.BusinessSignUp6
-import com.example.trippleatt.ui.otpV2.OtpVerification2
-import com.example.trippleatt.util.log
-import com.example.trippleatt.util.toast
+import com.example.trippleatt.databinding.ActivitySignUpScreen2Binding
+import com.example.trippleatt.ui.bSU5.BusinessSU5VM
+import com.example.trippleatt.ui.bSU5.BusinessSU5VMF
+import com.example.trippleatt.ui.bSU5.ShopListAdapter
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,18 +27,25 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
+import android.location.Geocoder
+import com.example.trippleatt.WelcomeScreen
+import com.example.trippleatt.data.Results
+import com.example.trippleatt.util.log
+import com.example.trippleatt.util.toast
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 
-class BusinessSignUp5 : AppCompatActivity(),
-    OnMapReadyCallback,
-    ShopListAdapter.OnItemClick,
-    KodeinAware {
+import com.google.android.gms.maps.model.Marker
+import java.util.*
+
+
+class SignUpScreen2 : AppCompatActivity(), OnMapReadyCallback, KodeinAware {
 
     override val kodein by kodein()
 
-    private val factory: BusinessSU5VMF by instance()
+    private val factory: SignUpScrVMF by instance()
 
-    private lateinit var viewModel: BusinessSU5VM
-    private lateinit var binding: ActivityBussinessSignUp5Binding
+    private lateinit var viewModel: SignUpScrVM
+    private lateinit var binding: ActivitySignUpScreen2Binding
 
     private lateinit var shopListAdapter: ShopListAdapter
 
@@ -49,27 +55,46 @@ class BusinessSignUp5 : AppCompatActivity(),
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val permissionCode = 101
 
+    private var currAddress: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityBussinessSignUp5Binding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this, factory).get(BusinessSU5VM::class.java)
+        binding = ActivitySignUpScreen2Binding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this, factory).get(SignUpScrVM::class.java)
         setContentView(binding.root)
 
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(this)
         fetchLocation()
 
-        appPreferences = AppPreferences(this)
+        binding.btnSaveAndContinue.setOnClickListener {
+            saveDetails()
+        }
 
-        viewModel.getShopList()
+    }
 
-        viewModel.getShopList.observe(this, {
+    private fun saveDetails(){
+        val add = "${binding.etBlockNo.text} ${binding.etLandmark.text} $currAddress"
+
+        val intent = intent
+
+        val fName = intent.getStringExtra("fName")
+        val lName = intent.getStringExtra("lName")
+
+        val data: HashMap<String, Any> = hashMapOf()
+
+        data["fName"] = fName!!
+        data["lName"] = lName!!
+        data["address"] = add
+
+        viewModel.saveUserDetails(data)
+
+        viewModel.saveUserDetails.observe(this, {
             when (it) {
                 is Results.Success -> {
-                    shopListAdapter = ShopListAdapter(it.data, this)
-                    binding.recyclerVewForShop.layoutManager = LinearLayoutManager(this)
-                    binding.recyclerVewForShop.adapter = shopListAdapter
+                    startActivity(Intent(this, WelcomeScreen::class.java))
+                    finish()
                 }
                 is Results.Error -> {
                     log("signInWithEmail failure: ${it.exception.localizedMessage}")
@@ -79,12 +104,6 @@ class BusinessSignUp5 : AppCompatActivity(),
                 }
             }
         })
-
-        binding.cnsAddNewShop.setOnClickListener {
-            startActivity(Intent(this, OtpVerification2::class.java))
-            finish()
-        }
-
     }
 
     private fun fetchLocation() {
@@ -113,18 +132,17 @@ class BusinessSignUp5 : AppCompatActivity(),
         }
     }
 
-    override fun onItemClick(position: Int) {
-        val id = shopListAdapter.getItemId(position)
-        appPreferences.saveShopId(id)
-        val intent = Intent(this, OtpVerification2::class.java)
-        intent.putExtra("id", id)
-        startActivity(intent)
-        finish()
-    }
-
     override fun onMapReady(googleMap: GoogleMap) {
         val latLng = LatLng(currentLocation.latitude, currentLocation.longitude)
-        val markerOptions = MarkerOptions().position(latLng).title("I am here!")
+        val markerOptions = MarkerOptions().position(latLng).title("You are here!")
+
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val addresses = geocoder.getFromLocation(currentLocation.latitude, currentLocation.longitude, 1)
+
+        val address = addresses[0]
+        currAddress = address.getAddressLine(0)
+
+        binding.tvAddress.text = currAddress
         googleMap?.animateCamera(CameraUpdateFactory.newLatLng(latLng))
         googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5f))
         googleMap?.addMarker(markerOptions)

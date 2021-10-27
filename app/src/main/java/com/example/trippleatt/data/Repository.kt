@@ -2,8 +2,11 @@ package com.example.trippleatt.data
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import com.example.trippleatt.AppPreferences
+import com.example.trippleatt.WelcomeScreen
 import com.example.trippleatt.util.log
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -84,6 +87,18 @@ class Repository(context: Context) : DataSource {
             PhoneAuthProvider.verifyPhoneNumber(options)
         }
 
+    // Verify Otp
+    override suspend fun verifyOtp(credential: PhoneAuthCredential): Results<Boolean> =
+        suspendCoroutine { cont ->
+            auth.signInWithCredential(credential)
+                .addOnSuccessListener {
+                    cont.resume(Results.Success(true))
+                }
+                .addOnFailureListener {
+                    cont.resume(Results.Error(it))
+                }
+        }
+
     // Business Logic Screen Activity
 
     override suspend fun signInWithEmail(email: String, password: String): Results<Boolean> =
@@ -136,6 +151,22 @@ class Repository(context: Context) : DataSource {
         suspendCoroutine { cont ->
             firestoreDatabase
                 .collection("details")
+                .document()
+                .set(data)
+                .addOnSuccessListener {
+                    cont.resume(Results.Success(true))
+                }
+                .addOnFailureListener {
+                    cont.resume(Results.Error(it))
+                }
+        }
+
+    override suspend fun saveUserDetails(
+        data: HashMap<String, Any>
+    ): Results<Boolean> =
+        suspendCoroutine { cont ->
+            firestoreDatabase
+                .collection("userDetails")
                 .document()
                 .set(data)
                 .addOnSuccessListener {
