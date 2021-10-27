@@ -46,34 +46,37 @@
                 android:id="@+id/otp_edit_box1"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/otp_edit_box2"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:importantForAutofill="no"/>
 
             <EditText
                 android:id="@+id/otp_edit_box3"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:importantForAutofill="no"/>
 
             <EditText
                 android:id="@+id/otp_edit_box4"
@@ -93,7 +96,8 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:importantForAutofill="no"/>
 
             <EditText
                 android:id="@+id/otp_edit_box6"
@@ -103,7 +107,8 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:importantForAutofill="no"/>
 
         </LinearLayout>
 
@@ -116,7 +121,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Verify"
+        android:text="@string/verify"
         android:textAllCaps="false"
         android:background="@drawable/button_corner_radius"
         app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Resend Code"
+        android:text="@string/resend_code"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnOtpVerify" />

@@ -13,7 +13,6 @@ import com.example.trippleatt.AppPreferences
 import com.example.trippleatt.R
 import com.example.trippleatt.data.Results
 import com.example.trippleatt.databinding.ActivityBussinessSignUp5Binding
-import com.example.trippleatt.ui.bSU6.BusinessSignUp6
 import com.example.trippleatt.ui.otpV2.OtpVerification2
 import com.example.trippleatt.util.log
 import com.example.trippleatt.util.toast
@@ -125,9 +124,9 @@ class BusinessSignUp5 : AppCompatActivity(),
     override fun onMapReady(googleMap: GoogleMap) {
         val latLng = LatLng(currentLocation.latitude, currentLocation.longitude)
         val markerOptions = MarkerOptions().position(latLng).title("I am here!")
-        googleMap?.animateCamera(CameraUpdateFactory.newLatLng(latLng))
-        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5f))
-        googleMap?.addMarker(markerOptions)
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5f))
+        googleMap.addMarker(markerOptions)
     }
 
     override fun onRequestPermissionsResult(

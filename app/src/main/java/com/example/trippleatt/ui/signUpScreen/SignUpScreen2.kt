@@ -3,19 +3,19 @@ package com.example.trippleatt.ui.signUpScreen
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Address
+import android.location.Geocoder
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.RadioButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.trippleatt.AppPreferences
 import com.example.trippleatt.R
-import com.example.trippleatt.databinding.ActivityBussinessSignUp5Binding
+import com.example.trippleatt.WelcomeScreen
+import com.example.trippleatt.data.Results
 import com.example.trippleatt.databinding.ActivitySignUpScreen2Binding
-import com.example.trippleatt.ui.bSU5.BusinessSU5VM
-import com.example.trippleatt.ui.bSU5.BusinessSU5VMF
-import com.example.trippleatt.ui.bSU5.ShopListAdapter
+import com.example.trippleatt.util.log
+import com.example.trippleatt.util.toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -27,14 +27,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
-import android.location.Geocoder
-import com.example.trippleatt.WelcomeScreen
-import com.example.trippleatt.data.Results
-import com.example.trippleatt.util.log
-import com.example.trippleatt.util.toast
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
-
-import com.google.android.gms.maps.model.Marker
 import java.util.*
 
 
@@ -46,10 +38,6 @@ class SignUpScreen2 : AppCompatActivity(), OnMapReadyCallback, KodeinAware {
 
     private lateinit var viewModel: SignUpScrVM
     private lateinit var binding: ActivitySignUpScreen2Binding
-
-    private lateinit var shopListAdapter: ShopListAdapter
-
-    private lateinit var appPreferences: AppPreferences
 
     private lateinit var currentLocation: Location
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -77,6 +65,9 @@ class SignUpScreen2 : AppCompatActivity(), OnMapReadyCallback, KodeinAware {
     private fun saveDetails(){
         val add = "${binding.etBlockNo.text} ${binding.etLandmark.text} $currAddress"
 
+        val intSelectButton: Int =  binding.radioGroup.checkedRadioButtonId
+        val radioButton = findViewById<RadioButton>(intSelectButton)
+
         val intent = intent
 
         val fName = intent.getStringExtra("fName")
@@ -87,6 +78,7 @@ class SignUpScreen2 : AppCompatActivity(), OnMapReadyCallback, KodeinAware {
         data["fName"] = fName!!
         data["lName"] = lName!!
         data["address"] = add
+        data["place"] = radioButton.text
 
         viewModel.saveUserDetails(data)
 
@@ -143,9 +135,9 @@ class SignUpScreen2 : AppCompatActivity(), OnMapReadyCallback, KodeinAware {
         currAddress = address.getAddressLine(0)
 
         binding.tvAddress.text = currAddress
-        googleMap?.animateCamera(CameraUpdateFactory.newLatLng(latLng))
-        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5f))
-        googleMap?.addMarker(markerOptions)
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5f))
+        googleMap.addMarker(markerOptions)
     }
 
     override fun onRequestPermissionsResult(

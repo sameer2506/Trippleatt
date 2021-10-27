@@ -2,17 +2,16 @@ package com.example.trippleatt.ui.businessDetails
 
 import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.trippleatt.WelcomeScreen
 import com.example.trippleatt.data.Results
 import com.example.trippleatt.databinding.ActivityBusinessDetailsBinding
 import com.example.trippleatt.util.log
 import com.example.trippleatt.util.toast
-import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
@@ -27,8 +26,6 @@ class BusinessDetails : AppCompatActivity(), KodeinAware {
     private lateinit var binding: ActivityBusinessDetailsBinding
     private lateinit var viewModel: BusinessDetailsVM
     private lateinit var view: View
-
-    private lateinit var storageReference: StorageReference
 
     private var frontImageLink: String? = null
     private var image1Link: String? = null
@@ -170,7 +167,7 @@ class BusinessDetails : AppCompatActivity(), KodeinAware {
         }
     }
 
-    fun submitDetails() {
+    private fun submitDetails() {
 
         val shopName = binding.etShopName.text.toString().trim()
         val category = binding.etAddCategory.text.toString().trim()

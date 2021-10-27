@@ -186,7 +186,25 @@ class Repository(context: Context) : DataSource {
                 .get()
                 .addOnSuccessListener { queryList ->
                     val shopList: List<ShopListData> =
-                        queryList.toObjects(ShopListData::class.java) as List<ShopListData>
+                        queryList.toObjects(ShopListData::class.java)
+                    cont.resume(Results.Success(shopList))
+                }
+                .addOnFailureListener {
+                    cont.resume(Results.Error(it))
+                }
+        }
+
+    override suspend fun getShopDetails(id: Long): Results<ShopListData> =
+        suspendCoroutine { cont ->
+            val query = firestoreDatabase
+                .collection("details")
+                .document(id.toString())
+
+            query
+                .get()
+                .addOnSuccessListener { queryList ->
+                    val shopList =
+                        queryList as ShopListData
                     cont.resume(Results.Success(shopList))
                 }
                 .addOnFailureListener {

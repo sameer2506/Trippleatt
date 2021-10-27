@@ -23,4 +23,6 @@ interface DataSource {
 
     suspend fun saveUserDetails(data: HashMap<String, Any>) : Results<Boolean>
 
+    suspend fun getShopDetails(id: Long) : Results<ShopListData>
+
 }

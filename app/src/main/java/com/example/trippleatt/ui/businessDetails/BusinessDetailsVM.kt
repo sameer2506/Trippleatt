@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.trippleatt.data.FileLink
 import com.example.trippleatt.data.Repository
 import com.example.trippleatt.data.Results
+import com.example.trippleatt.data.ShopListData
 import kotlinx.coroutines.launch
 
 class BusinessDetailsVM(
@@ -30,6 +31,15 @@ class BusinessDetailsVM(
     fun saveBusinessDetails(data: HashMap<String, Any>) = viewModelScope.launch {
         _saveBusinessDetails.value = Results.Loading
         _saveBusinessDetails.value = repository.saveBusinessDetails(data)
+    }
+
+    private val _getShopDetails : MutableLiveData<Results<ShopListData>> = MutableLiveData()
+    val getShopDetails : LiveData<Results<ShopListData>>
+        get() = _getShopDetails
+
+    fun getShopDetails(id: Long) = viewModelScope.launch {
+        _getShopDetails.value = Results.Loading
+        _getShopDetails.value = repository.getShopDetails(id)
     }
     
 }

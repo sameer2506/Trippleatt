@@ -1,12 +1,11 @@
 package com.example.trippleatt.ui.otpV2
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.trippleatt.AppPreferences
-import com.example.trippleatt.WelcomeScreen
 import com.example.trippleatt.data.Results
 import com.example.trippleatt.databinding.ActivityOtpVerification2Binding
 import com.example.trippleatt.ui.businessDetails.BusinessDetails

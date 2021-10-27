@@ -6,7 +6,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.trippleatt.AppPreferences
-import com.example.trippleatt.R
 import com.example.trippleatt.WelcomeScreen
 import com.example.trippleatt.data.Results
 import com.example.trippleatt.databinding.ActivityOtpVerificationBinding

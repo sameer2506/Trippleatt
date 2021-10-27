@@ -1,9 +1,8 @@
 package com.example.trippleatt.ui.signUpScreen
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.trippleatt.R
+import androidx.appcompat.app.AppCompatActivity
 import com.example.trippleatt.databinding.ActivitySignUpScreenBinding
 import com.example.trippleatt.security.isEmpty
 

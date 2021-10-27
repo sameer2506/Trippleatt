@@ -34,11 +34,12 @@
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/frontImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/add_image" />
+                    android:src="@drawable/add_image"
+                    android:contentDescription="@string/front_image" />
 
             </androidx.cardview.widget.CardView>
 
@@ -52,7 +53,8 @@
                     android:id="@+id/image1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/add_image" />
+                    android:src="@drawable/add_image"
+                    android:contentDescription="@string/image_1" />
 
             </androidx.cardview.widget.CardView>
 
@@ -66,7 +68,8 @@
                     android:id="@+id/image2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/add_image" />
+                    android:src="@drawable/add_image"
+                    android:contentDescription="@string/image_2"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -78,7 +81,9 @@
         android:id="@+id/etShopName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Shop Name"
+        android:hint="@string/enter_shop_name"
+        android:autofillHints="@string/enter_shop_name"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
@@ -87,7 +92,9 @@
         android:id="@+id/etAddCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Add Category"
+        android:hint="@string/add_category"
+        android:autofillHints="@string/add_category"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etShopName" />
@@ -96,7 +103,9 @@
         android:id="@+id/etContactEmailId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Contact Email Id"
+        android:hint="@string/contact_email_id"
+        android:autofillHints="@string/contact_email_id"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etAddCategory" />
@@ -105,7 +114,9 @@
         android:id="@+id/etWebsite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Website"
+        android:hint="@string/website"
+        android:autofillHints="@string/website"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etContactEmailId" />
@@ -114,7 +125,7 @@
         android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/submit"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

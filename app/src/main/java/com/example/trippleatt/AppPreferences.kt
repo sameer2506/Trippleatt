@@ -39,6 +39,6 @@ class AppPreferences(ctx: Context) {
     }
 
     fun getShopId(): Long {
-        return shopId.getLong("shopId", -1)
+        return shopId.getLong("shopId", 0L)
     }
 }
