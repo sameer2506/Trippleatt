@@ -47,7 +47,7 @@
             android:name=".ui.bSU3.BusinessSignUp3"
             android:exported="true" />
         <activity
-            android:name=".OtpVerification"
+            android:name=".ui.otpV.OtpVerification"
             android:exported="true" />
         <activity
             android:name=".ui.businessSU.BusinessSignUp"

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.trippleatt.ui.bSU5.BusinessSignUp5
+import com.example.trippleatt.ui.businessLS.BusinessLoginScreen
 import com.example.trippleatt.ui.loginScreen.LoginScreen
 
 class MainActivity : AppCompatActivity() {
@@ -11,6 +12,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        startActivity(Intent(this, LoginScreen::class.java))
+        startActivity(Intent(this, BusinessLoginScreen::class.java))
     }
 }

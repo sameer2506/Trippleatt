@@ -1,15 +1,16 @@
-package com.example.trippleatt
+package com.example.trippleatt.ui.otpV
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.trippleatt.AppPreferences
+import com.example.trippleatt.R
+import com.example.trippleatt.WelcomeScreen
 import com.example.trippleatt.util.log
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

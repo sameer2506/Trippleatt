@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.trippleatt.OtpVerification
+import com.example.trippleatt.AppPreferences
+import com.example.trippleatt.ui.otpV.OtpVerification
 import com.example.trippleatt.databinding.ActivityLoginBinding
 import com.example.trippleatt.security.isValidMobile
 import com.example.trippleatt.ui.businessLS.BusinessLoginScreen
@@ -27,6 +28,8 @@ class LoginScreen : AppCompatActivity(), KodeinAware {
 
     private var phoneNumber: String = ""
 
+    private lateinit var appPreferences: AppPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -34,6 +37,8 @@ class LoginScreen : AppCompatActivity(), KodeinAware {
         view = binding.root
         viewModel = ViewModelProvider(this, factory).get(LoginScreenVM::class.java)
         setContentView(view)
+
+        appPreferences = AppPreferences(this)
 
         binding.btnSendOtp.setOnClickListener {
             phoneNumber = binding.etMobileNumber.text.toString().trim()
@@ -50,15 +55,16 @@ class LoginScreen : AppCompatActivity(), KodeinAware {
 
         binding.goToBusinessAccount.setOnClickListener {
             startActivity(Intent(this, BusinessLoginScreen::class.java))
+            finish()
         }
 
     }
 
     private fun startPhoneNumberVerification(phoneNumber: String) {
         viewModel.sendOtp(phoneNumber, this)
-
+        appPreferences.savePhoneNumber(phoneNumber)
         startActivity(Intent(this, OtpVerification::class.java))
-
+        finish()
     }
 
 }
