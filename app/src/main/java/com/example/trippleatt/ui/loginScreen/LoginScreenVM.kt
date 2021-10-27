@@ -1,4 +1,4 @@
-package com.example.trippleatt.ui
+package com.example.trippleatt.ui.loginScreen
 
 import android.app.Activity
 import androidx.lifecycle.LiveData
@@ -9,7 +9,7 @@ import com.example.trippleatt.data.Repository
 import com.example.trippleatt.data.Results
 import kotlinx.coroutines.launch
 
-class DataViewModel(
+class LoginScreenVM(
     private var repository: Repository
 ) : ViewModel() {
 

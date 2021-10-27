@@ -76,7 +76,7 @@ class Repository(context: Context) : DataSource {
         suspendCoroutine {
             val options = PhoneAuthOptions.newBuilder(auth)
                 .setPhoneNumber(phoneNumber)
-                .setTimeout(5, TimeUnit.MINUTES)
+                .setTimeout(120, TimeUnit.SECONDS)
                 .setActivity(activity)
                 .setCallbacks(mCallbacks)
                 .build()
