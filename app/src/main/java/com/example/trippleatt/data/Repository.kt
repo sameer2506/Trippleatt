@@ -2,13 +2,19 @@ package com.example.trippleatt.data
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
+import androidx.appcompat.app.AlertDialog
 import com.example.trippleatt.AppPreferences
 import com.example.trippleatt.util.log
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -18,6 +24,10 @@ class Repository(context: Context) : DataSource {
     private var verificationCode: String = ""
 
     private val auth: FirebaseAuth = Firebase.auth
+
+    private lateinit var storageReference: StorageReference
+
+    val firestoreDatabase: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val appPreferences = AppPreferences(context)
 
@@ -94,6 +104,43 @@ class Repository(context: Context) : DataSource {
     override suspend fun createUserAccount(email: String, password: String): Result<Boolean> =
         suspendCoroutine { cont ->
             auth.createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener {
+                    cont.resume(Result.Success(true))
+                }
+                .addOnFailureListener {
+                    cont.resume(Result.Error(it))
+                }
+        }
+
+    // Upload Image
+
+    override suspend fun uploadImage(data: Uri, rnds: Int): Result<FileLink> =
+        suspendCoroutine {
+            storageReference = FirebaseStorage.getInstance().getReference("$rnds")
+
+            val uploadTask = storageReference.putFile(data)
+            uploadTask.continueWithTask{
+                    task ->
+                if (!task.isSuccessful) {
+                    throw task.exception!!
+                }
+                storageReference.downloadUrl
+            }.addOnCompleteListener { task ->
+                val data = FileLink(task.result.toString())
+                Result.Success(data)
+            }
+        }
+
+    // Saving Business Details
+
+    override suspend fun saveBusinessDetails(
+        data: HashMap<String, Any>
+    ): Result<Boolean> =
+        suspendCoroutine { cont ->
+            firestoreDatabase
+                .collection("details")
+                .document()
+                .set(data)
                 .addOnSuccessListener {
                     cont.resume(Result.Success(true))
                 }

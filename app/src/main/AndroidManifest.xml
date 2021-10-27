@@ -32,7 +32,7 @@
             android:name=".ui.bSU5.BusinessSignUp5"
             android:exported="true" />
         <activity
-            android:name=".BusinessDetails"
+            android:name=".ui.businessDetails.BusinessDetails"
             android:exported="true" />
         <activity
             android:name=".SignUpScreen"
@@ -41,7 +41,7 @@
             android:name=".WelcomeScreen"
             android:exported="true" />
         <activity
-            android:name=".BusinessSignUp4"
+            android:name=".ui.bSU4.BusinessSignUp4"
             android:exported="true" />
         <activity
             android:name=".ui.bSU3.BusinessSignUp3"

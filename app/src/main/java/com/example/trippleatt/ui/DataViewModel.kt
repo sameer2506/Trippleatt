@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.trippleatt.data.OtpSend
 import com.example.trippleatt.data.Repository
 import com.example.trippleatt.data.Result
 import kotlinx.coroutines.launch

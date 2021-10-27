@@ -5,13 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import com.example.trippleatt.BusinessSignUp4
-import com.example.trippleatt.R
+import com.example.trippleatt.ui.bSU4.BusinessSignUp4
 import com.example.trippleatt.data.Result
-import com.example.trippleatt.databinding.ActivityBusineesSignUpBinding
 import com.example.trippleatt.databinding.ActivityBusinessSignUp3Binding
-import com.example.trippleatt.ui.businessSU.BusinessSUVM
-import com.example.trippleatt.ui.businessSU.BusinessSUVMF
 import com.example.trippleatt.util.log
 import com.example.trippleatt.util.toast
 import com.google.firebase.auth.FirebaseAuth
